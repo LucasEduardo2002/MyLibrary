@@ -1,26 +1,63 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class BooksService {
-  create(createBookDto: CreateBookDto) {
-    return 'This action adds a new book';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createBookDto: CreateBookDto, userId: number) {
+    return this.prisma.book.create({
+      data: {
+        name: createBookDto.name,
+        bookGenres: createBookDto.bookGenres,
+        author: createBookDto.author,
+        pages: createBookDto.pages,
+        userId: userId,
+      },
+    })
+  
   }
 
-  findAll() {
-    return `This action returns all books`;
+  findAllByUser(userId: number) {
+    return this.prisma.book.findMany({
+      where: { userId: userId },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+
+  async remove(id: number, userId: number) {
+    const book = await this.prisma.book.findUnique({
+      where: { id: id },
+    });
+    if (!book) {
+      throw new Error("Book not found.");
+    }
+    if (userId !== book.userId) {
+      throw new Error("You do not have permission to delete this book.");
+    }
+    return this.prisma.book.delete({
+      where: { id: id },
+    });
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
-  }
 
-  remove(id: number) {
-    return `This action removes a #${id} book`;
+  async update(id: number, userId: number, updateBookDto: UpdateBookDto) {
+    const book = await this.prisma.book.findUnique({
+      where: { id: id },    
+    });
+    if (!book) {
+      throw new Error("Book not found.");
+    }
+    if (userId !== book.userId) {
+      throw new Error("You do not have permission to update this book.");
+    }
+    return this.prisma.book.update({
+      where: { id: id },
+      data: {
+        ...updateBookDto,
+      },
+    });
   }
 }

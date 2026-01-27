@@ -17,7 +17,7 @@ model User {
 
   id        Int       @id @default(autoincrement())
   name      String
-  email    String     @unique
+  email     String     @unique
   password  String
 
   //Um usuário pode ter vários livros
@@ -28,7 +28,7 @@ model User {
 model Book {
   id            Int        @id @default(autoincrement())
   name          String
-  bookGenres   String?
+  bookGenres    String?
   author        String?
   pages         Int?
 

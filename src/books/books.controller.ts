@@ -5,10 +5,9 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('books')
+@UseGuards(AuthGuard('jwt'))
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
-
-  @UseGuards(AuthGuard('jwt'))
 
   @Post()
   async create(@Request() req, @Body() createBookDto: CreateBookDto) {

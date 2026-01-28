@@ -24,7 +24,7 @@ export class BooksController {
    */
   @Post()
   async create(@Request() req, @Body() createBookDto: CreateBookDto) {
-    return this.booksService.create(createBookDto, req.user.userId);
+    return await this.booksService.create(createBookDto, req.user.userId);
   }
 
   /**
@@ -33,8 +33,8 @@ export class BooksController {
    * @returns Array de livros do usuário
    */
   @Get('me')
-  findAll(@Request() req) {
-    return this.booksService.findAllByUser(req.user.userId);
+  async findAll(@Request() req) {
+    return await this.booksService.findAllByUser(req.user.userId);
   }
 
   /**
@@ -45,7 +45,7 @@ export class BooksController {
    */
   @Delete(':id')
   async remove(@Request() req, @Param('id') id: string) {
-    return this.booksService.remove(+id, req.user.userId);
+    return await this.booksService.remove(+id, req.user.userId);
   }
 
   /**
@@ -57,6 +57,6 @@ export class BooksController {
    */
   @Patch(':id')
   async update(@Request() req, @Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.booksService.update(+id, req.user.userId, updateBookDto);
+    return await this.booksService.update(+id, req.user.userId, updateBookDto);
   }
 }

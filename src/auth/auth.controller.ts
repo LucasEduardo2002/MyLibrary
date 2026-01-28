@@ -31,7 +31,7 @@ export class AuthController {
     if (!user) {
       throw new Error('Invalid credentials');
     }
-    return this.authService.login(user);
+    return await this.authService.login(user);
   }
 
 }

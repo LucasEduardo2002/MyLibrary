@@ -20,7 +20,7 @@ export class UsersController {
    */
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return await this.usersService.create(createUserDto);
   }
 
   /**
@@ -28,8 +28,8 @@ export class UsersController {
    * @returns Array de usuários (sem senhas)
    */
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll() {
+    return await this.usersService.findAll();
   }
 
   /**
@@ -38,8 +38,8 @@ export class UsersController {
    * @returns Usuário encontrado (sem senha) ou null
    */
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.usersService.findOne(id);
   }
 
   /**
@@ -49,8 +49,8 @@ export class UsersController {
    * @returns Usuário atualizado (sem senha)
    */
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  async update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
+    return await this.usersService.update(id, updateUserDto);
   }
 
   /**
@@ -59,7 +59,7 @@ export class UsersController {
    * @returns Usuário removido
    */
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return await this.usersService.remove(id);
   }
 }

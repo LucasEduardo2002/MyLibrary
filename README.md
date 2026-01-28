@@ -1,98 +1,283 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# MyLibrary API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API RESTful para gerenciamento de biblioteca pessoal, desenvolvida com NestJS, Prisma ORM e autenticação JWT.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📋 Descrição
 
-## Description
+MyLibrary é uma aplicação backend que permite aos usuários gerenciar sua biblioteca pessoal de livros. Cada usuário pode cadastrar, listar, atualizar e remover livros de sua coleção, com autenticação e autorização completas.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🚀 Tecnologias
 
-## Project setup
+- **[NestJS](https://nestjs.com/)** - Framework Node.js progressivo
+- **[Prisma](https://www.prisma.io/)** - ORM moderno para Node.js e TypeScript  
+- **[MySQL](https://www.mysql.com/)** - Banco de dados relacional
+- **[JWT](https://jwt.io/)** - Autenticação via JSON Web Tokens
+- **[bcrypt](https://www.npmjs.com/package/bcrypt)** - Criptografia de senhas
+- **[Passport](http://www.passportjs.org/)** - Middleware de autenticação
 
-```bash
-$ npm install
+## 📁 Estrutura do Projeto
+
+```
+mylibrary/
+├── prisma/
+│   ├── migrations/          # Migrations do banco de dados
+│   └── schema.prisma        # Schema do Prisma
+├── src/
+│   ├── auth/               # Módulo de autenticação
+│   │   ├── dto/           # Data Transfer Objects
+│   │   ├── auth.controller.ts
+│   │   ├── auth.service.ts
+│   │   ├── auth.module.ts
+│   │   └── jwt.strategy.ts
+│   ├── books/             # Módulo de livros
+│   │   ├── dto/
+│   │   ├── books.controller.ts
+│   │   ├── books.service.ts
+│   │   └── books.module.ts
+│   ├── users/             # Módulo de usuários
+│   │   ├── dto/
+│   │   ├── users.controller.ts
+│   │   ├── users.service.ts
+│   │   └── users.module.ts
+│   ├── prisma/            # Módulo Prisma
+│   │   ├── prisma.service.ts
+│   │   └── prisma.module.ts
+│   ├── app.module.ts      # Módulo raiz
+│   └── main.ts            # Entry point
+└── package.json
 ```
 
-## Compile and run the project
+## 🔧 Instalação
 
+### Pré-requisitos
+
+- Node.js (v18 ou superior)
+- MySQL (v8 ou superior)
+- npm ou yarn
+
+### Passos
+
+1. **Clone o repositório**
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone <url-do-repositorio>
+cd mylibrary
 ```
 
-## Run tests
-
+2. **Instale as dependências**
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
+3. **Configure as variáveis de ambiente**
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Crie um arquivo `.env` na raiz do projeto:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```env
+DATABASE_URL="mysql://usuario:senha@localhost:3306/mylibrary"
+JWT_SECRET="sua_chave_secreta_jwt_aqui"
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+4. **Execute as migrations do banco de dados**
+```bash
+npx prisma migrate deploy
+```
 
-## Resources
+5. **Gere o Prisma Client**
+```bash
+npx prisma generate
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🏃 Executando a Aplicação
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Modo Desenvolvimento
+```bash
+npm run start:dev
+```
 
-## Support
+### Modo Produção
+```bash
+npm run build
+npm run start:prod
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+A API estará disponível em `http://localhost:3000`
 
-## Stay in touch
+## 📡 Endpoints da API
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Autenticação
 
-## License
+#### POST `/auth`
+Realiza login e retorna token JWT
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**Request Body:**
+```json
+{
+  "email": "usuario@email.com",
+  "password": "senha123"
+}
+```
+
+**Response:**
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+---
+
+### Usuários
+
+#### POST `/users`
+Cria um novo usuário
+
+**Request Body:**
+```json
+{
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "password": "senha123"
+}
+```
+
+#### GET `/users`
+Lista todos os usuários
+
+#### GET `/users/:id`
+Busca um usuário específico
+
+#### PATCH `/users/:id`
+Atualiza dados de um usuário
+
+#### DELETE `/users/:id`
+Remove um usuário
+
+---
+
+### Livros
+**🔒 Todas as rotas requerem autenticação JWT**
+
+Para acessar as rotas de livros, inclua o token no header:
+```
+Authorization: Bearer seu_token_jwt_aqui
+```
+
+#### POST `/books`
+Adiciona um livro à biblioteca
+
+**Request Body:**
+```json
+{
+  "name": "1984",
+  "author": "George Orwell",
+  "bookGenres": "Ficção, Distopia",
+  "pages": 416
+}
+```
+
+#### GET `/books/me`
+Lista todos os livros do usuário autenticado
+
+#### PATCH `/books/:id`
+Atualiza informações de um livro
+
+**Request Body:**
+```json
+{
+  "name": "1984 - Edição Especial",
+  "pages": 450
+}
+```
+
+#### DELETE `/books/:id`
+Remove um livro da biblioteca
+
+---
+
+## 🗄️ Modelo de Dados
+
+### User
+```prisma
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  book      Book[]
+}
+```
+
+### Book
+```prisma
+model Book {
+  id          Int      @id @default(autoincrement())
+  name        String
+  bookGenres  String?
+  author      String?
+  pages       Int?
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+}
+```
+
+## 🔐 Autenticação e Segurança
+
+- **Senhas**: Criptografadas com bcrypt (10 salt rounds)
+- **Tokens JWT**: Validade de 7 dias
+- **Autorização**: Cada usuário acessa apenas seus próprios livros
+- **Validação**: Verificação de propriedade antes de modificar/deletar livros
+
+## 🛠️ Scripts Disponíveis
+
+```bash
+npm run start          # Inicia a aplicação
+npm run start:dev      # Modo desenvolvimento com watch
+npm run start:prod     # Modo produção
+npm run build          # Compila o projeto
+npm run format         # Formata código com Prettier
+npm run lint           # Executa ESLint
+npm run test           # Executa testes
+npm run test:cov       # Testes com cobertura
+```
+
+## 📝 Prisma Commands
+
+```bash
+npx prisma migrate dev        # Cria e aplica nova migration
+npx prisma migrate deploy     # Aplica migrations em produção
+npx prisma generate           # Gera Prisma Client
+npx prisma studio             # Abre interface visual do banco
+```
+
+## 🐛 Tratamento de Erros
+
+A API retorna respostas apropriadas para erros comuns:
+
+- **400 Bad Request**: Dados inválidos ou faltando
+- **401 Unauthorized**: Token JWT ausente ou inválido
+- **403 Forbidden**: Tentativa de acessar recursos de outro usuário
+- **404 Not Found**: Recurso não encontrado
+- **409 Conflict**: Email já cadastrado
+
+## 🚧 Melhorias Futuras
+
+- [ ] Implementar refresh tokens
+- [ ] Adicionar validação com class-validator
+- [ ] Implementar rate limiting
+- [ ] Adicionar testes unitários e e2e
+- [ ] Documentação com Swagger/OpenAPI
+- [ ] Paginação para listagem de livros
+- [ ] Upload de capas de livros
+- [ ] Sistema de categorias e tags
+
+## 📄 Licença
+
+Este projeto é privado e não possui licença pública.
+
+## 👤 Autor
+
+Desenvolvido como parte do projeto MyLibrary.
+
+---
+
+**Nota:** Certifique-se de configurar corretamente as variáveis de ambiente antes de executar a aplicação.
